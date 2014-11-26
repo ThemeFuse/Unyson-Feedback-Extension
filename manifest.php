@@ -9,3 +9,5 @@ $manifest['description'] = __( 'Adds the possibility to leave feedback (comments
 $manifest['version'] = '1.0.0';
 $manifest['display'] = true;
 $manifest['standalone'] = true;
+
+$manifest['github_update'] = 'ThemeFuse/Unyson-Feedback-Extension';
