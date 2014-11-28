@@ -37,7 +37,7 @@ class FW_Feedback_Stars_Walker extends Walker_Comment {
 					<?php if ( 0 != $args['avatar_size'] ) {
 						echo get_avatar( $comment, $args['avatar_size'] );
 					} ?>
-					<?php printf( '<b class="fn">' . get_comment_author_link() .'</b> <span class="says">' . __( 'says', 'fw' ).':</span>' ); ?>
+					<?php echo '<b class="fn">' . get_comment_author_link() .'</b> <span class="says">' . __( 'says', 'fw' ).':</span>'; ?>
 				</div>
 				<!-- .comment-author -->
 
@@ -116,17 +116,17 @@ class FW_Feedback_Stars_Walker extends Walker_Comment {
 		<?php endif; ?>
 		<div class="comment-author vcard">
 			<?php if ( 0 != $args['avatar_size'] ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
-			<?php printf( __( '<cite class="fn">%s</cite> <span class="says">says:</span>' ), get_comment_author_link() ); ?>
+			<?php echo '<cite class="fn">' . get_comment_author_link() . '</cite> <span class="says">' . __( 'says', 'fw' ) . ':</span>' ?>
 		</div>
 		<?php if ( '0' == $comment->comment_approved ) : ?>
-			<em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ) ?></em>
+			<em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'fw' ) ?></em>
 			<br />
 		<?php endif; ?>
 
 		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID, $args ) ); ?>">
 				<?php
 				/* translators: 1: date, 2: time */
-				printf( __( '%1$s at %2$s' ), get_comment_date(),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)' ), '&nbsp;&nbsp;', '' );
+				printf( __( '%1$s at %2$s', 'fw' ), get_comment_date(),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)', 'fw' ), '&nbsp;&nbsp;', '' );
 			?>
 		</div>
 
