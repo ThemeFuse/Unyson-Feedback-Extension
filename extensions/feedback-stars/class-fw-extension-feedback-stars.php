@@ -251,7 +251,7 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 	public function _filter_verify_comment_meta_data( $comment_data ) {
 
 		if ( $this->accept_stars( $comment_data['comment_post_ID'] ) && (intval( FW_Request::POST($this->field_name)) < 1) ) {
-			wp_die( __( '<strong>ERROR</strong>: please rate the post.', 'fw' ) );
+		wp_die( '<strong>' . __( 'ERROR', 'fw' ) . '</strong>' . ': ' . __( 'please rate the post.', 'fw' ) );
 		}
 
 		return $comment_data;
