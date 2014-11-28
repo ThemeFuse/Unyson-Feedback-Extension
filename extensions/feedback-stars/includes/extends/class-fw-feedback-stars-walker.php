@@ -37,7 +37,7 @@ class FW_Feedback_Stars_Walker extends Walker_Comment {
 					<?php if ( 0 != $args['avatar_size'] ) {
 						echo get_avatar( $comment, $args['avatar_size'] );
 					} ?>
-					<?php printf( __( '%s <span class="says">says:</span>' ), sprintf( '<b class="fn">%s</b>', get_comment_author_link() ) ); ?>
+					<?php printf( '<b class="fn">' . get_comment_author_link() .'</b> <span class="says">' . __( 'says', 'fw' ).':</span>' ); ?>
 				</div>
 				<!-- .comment-author -->
 
