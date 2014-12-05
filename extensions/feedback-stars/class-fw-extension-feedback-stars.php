@@ -6,14 +6,12 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 
 	public $field_name = 'fw-feedback-stars';
 
-	public $max_rating;
+	private  $max_rating;
 
 	/**
 	 * @internal
 	 */
 	public function _init() {
-		$saved_value = intval(fw_get_db_ext_settings_option('feedback', 'feedback_stars_stars_number'));
-		$this->max_rating = ( $saved_value ) ? $saved_value : 5;
 
 		if(is_admin()) {
 			$this->add_admin_actions();
@@ -23,6 +21,18 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 			$this->add_filters();
 		}
 
+	}
+
+	/*
+	 * Get number of stars
+	 * @return int $max_rating
+	 */
+	public function get_max_rating() {
+		if ( is_null( $this->max_rating ) ) {
+			$this->max_rating = intval( fw_get_db_ext_settings_option( 'feedback', 'feedback_stars_stars_number', 5 ) );
+		}
+
+		return $this->max_rating;
 	}
 
 	private function add_actions() {
@@ -72,7 +82,7 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 
 			if ( $rating = intval(get_comment_meta( get_comment_ID(), $this->field_name, true )) ) {
 				$html = '<div class="wrap-rating back-end-listing"><span class="rating-title">' . __('Rating:', 'fw') . '</span><div class="fw-stars-rating">';
-                for($i=1; $i<=$this->max_rating; $i++) {
+                for($i=1; $i<=$this->get_max_rating(); $i++) {
 	                $voted = ( $i <= $rating ) ? ' voted' : '';
 	                $html .= '<span class="fa fa-star' . $voted . '" data-vote="' . $i . '"></span>';
                 }
@@ -103,7 +113,7 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 			$html .= '<meta itemprop="name" content="' . get_the_title() . '"/>';
 			$html .= '<div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
 			$html .= '<meta itemprop="ratingValue" content="' . $rating['average'] . '" />';
-			$html .= '<meta itemprop="bestRating" content="' . $this->max_rating . '" />';
+			$html .= '<meta itemprop="bestRating" content="' . $this->get_max_rating() . '" />';
 			$html .= '<meta itemprop="reviewCount" content="' . $rating['count'] . '" />';
 			$html .= '</div>';
 			$html .= '</div>';
@@ -175,7 +185,7 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 			return;
 		}
 		fw_render_view( $this->locate_view_path( 'rate' ), array(
-			'stars_number' => $this->max_rating,
+			'stars_number' => $this->get_max_rating(),
 			'input_name'   => $this->field_name
 		), false );
 	}
@@ -211,7 +221,7 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 			<span class="rating-title"><?php _e('Rating', 'fw'); ?></span>
 			<div class="fw-stars-rating">
 				<?php
-					for($i=1; $i<=$this->max_rating; $i++) {
+					for($i=1; $i<=$this->get_max_rating(); $i++) {
 						$voted = ( $i <= $rating ) ? ' voted' : '';
 						echo '<span class="fa fa-star' . $voted . '" data-vote="' . $i . '"></span>';
 					}
@@ -259,7 +269,7 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 
 	public function _filter_return_post_feedback( $content, $post ) {
 		$data = array(
-			'stars_number' => $this->max_rating,
+			'stars_number' => $this->get_max_rating(),
 			'rating'       => $this->get_post_detailed_rating( $post ),
 		);
 
@@ -291,7 +301,7 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 
 		$return = $this->get_post_rating($post_id);
 		$stars = array();
-		for($i=$this->max_rating; $i>=1; $i--){
+		for($i=$this->get_max_rating(); $i>=1; $i--){
 			$stars[$i] = array(
 				'count'     => 0,
 				'as_percentage'          => 0

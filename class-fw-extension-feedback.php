@@ -27,7 +27,7 @@ class FW_Extension_FeedBack extends FW_Extension {
 		$this->add_filters();
 	}
 
-	public function add_actions() {
+	private function add_actions() {
 
 		/** Internal */
 		{
@@ -35,14 +35,32 @@ class FW_Extension_FeedBack extends FW_Extension {
 			add_action( 'wp_insert_comment', array( $this, '_action_wp_insert_comment' ), 9999, 2 );
 			add_action( 'transition_comment_status', array( $this, '_action_transition_comment_status' ), 9999, 3 );
 			add_action( 'init', array( $this, '_action_check_if_feedback_is_on' ), 9999 );
+			add_action( 'init', array( $this, '_action_add_feedback_support' ), 9999 );
 			add_action( 'admin_menu', array( $this, '_action_change_menu_label' ) );
 		}
 
 	}
 
-	public function add_filters() {
+
+	private function add_filters() {
 		add_filter( 'preprocess_comment', array( $this, '_filter_pre_process_comment' ) );
 		add_filter( 'admin_comment_types_dropdown', array( $this, '_filter_admin_comment_types_drop_down' ) );
+		add_filter( 'comments_template', array( $this, '_filter_change_comments_template') );
+		add_filter( 'get_avatar_comment_types', array( $this, '_filter_change_comments_template') );
+	}
+
+	/**
+	 * Registers support of feedback for post types checked in dashboard.
+	 * @internal
+	 */
+	public function _action_add_feedback_support(){
+
+		$post_types = fw_get_db_ext_settings_option( 'feedback', 'post_types', array('post' => true) );
+
+		foreach ( $post_types as $slug => $value ) {
+			add_post_type_support( $slug, 'comments' );
+			add_post_type_support( $slug, $this->supports_feature_name );
+		}
 	}
 
 	public function _action_check_if_feedback_is_on() {
@@ -71,6 +89,39 @@ class FW_Extension_FeedBack extends FW_Extension {
 		return $comment_data;
 	}
 
+
+	/**
+	 * @internal
+	 */
+	public function _filter_get_avatar_comment_types( $types ) {
+		array_push( $types, $this->supports_feature_name );
+		return $types;
+	}
+
+	/**
+	 * The path to the file for listing of reviews.
+	 *
+	 * @param $theme_template
+	 * @internal
+	 * @return string
+	 */
+	public function _filter_change_comments_template( $theme_template ) {
+		global $post;
+
+		if ( post_type_supports( $post->post_type, $this->supports_feature_name ) ) {
+			$view = $this->locate_view_path( 'reviews' );
+
+			return ( $view ) ? $view : $theme_template;
+		}
+
+		return $theme_template;
+	}
+
+	/**
+	 * @param $comment_types
+	 * @internal
+	 * @return mixed
+	 */
 	public function _filter_admin_comment_types_drop_down( $comment_types ) {
 
 		if ( $this->feedback_on ) {

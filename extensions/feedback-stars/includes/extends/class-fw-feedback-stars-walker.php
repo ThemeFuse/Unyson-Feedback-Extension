@@ -22,7 +22,7 @@ class FW_Feedback_Stars_Walker extends Walker_Comment {
 				'depth'        => $depth,
 				'args'         => $args,
 				'has_children' => $this->has_children,
-				'stars_number' => $ext_instance->max_rating,
+				'stars_number' => $ext_instance->get_max_rating(),
 				'rate'         => get_comment_meta( $comment->comment_ID, $ext_instance->field_name, true )
 			), false );
 
@@ -96,7 +96,7 @@ class FW_Feedback_Stars_Walker extends Walker_Comment {
 				'depth'        => $depth,
 				'args'         => $args,
 				'has_children' => $this->has_children,
-				'stars_number' => $ext_instance->max_rating,
+				'stars_number' => $ext_instance->get_max_rating(),
 				'rate'         => get_comment_meta( $comment->comment_ID, $ext_instance->field_name, true )
 			), false );
 
