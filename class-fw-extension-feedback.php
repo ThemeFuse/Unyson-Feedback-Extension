@@ -46,7 +46,7 @@ class FW_Extension_FeedBack extends FW_Extension {
 		add_filter( 'preprocess_comment', array( $this, '_filter_pre_process_comment' ) );
 		add_filter( 'admin_comment_types_dropdown', array( $this, '_filter_admin_comment_types_drop_down' ) );
 		add_filter( 'comments_template', array( $this, '_filter_change_comments_template') );
-		add_filter( 'get_avatar_comment_types', array( $this, '_filter_change_comments_template') );
+		add_filter( 'get_avatar_comment_types', array( $this, '_filter_get_avatar_comment_types') );
 	}
 
 	/**
