@@ -17,8 +17,6 @@ class FW_Extension_FeedBack extends FW_Extension {
 	 */
 	public $accept_feedback = false;
 
-	public $feedback_on = true;
-
 	/**
 	 * @internal
 	 */
@@ -34,11 +32,9 @@ class FW_Extension_FeedBack extends FW_Extension {
 			add_action( 'wp', array( $this, '_action_global_post_is_available' ) );
 			add_action( 'wp_insert_comment', array( $this, '_action_wp_insert_comment' ), 9999, 2 );
 			add_action( 'transition_comment_status', array( $this, '_action_transition_comment_status' ), 9999, 3 );
-			add_action( 'init', array( $this, '_action_check_if_feedback_is_on' ), 9999 );
 			add_action( 'init', array( $this, '_action_add_feedback_support' ), 9999 );
 			add_action( 'admin_menu', array( $this, '_action_change_menu_label' ) );
 		}
-
 	}
 
 
@@ -63,22 +59,9 @@ class FW_Extension_FeedBack extends FW_Extension {
 		}
 	}
 
-	public function _action_check_if_feedback_is_on() {
-		$this->feedback_on = false;
-
-		foreach ( get_post_types() as $post_type ) {
-			if ( post_type_supports( $post_type, $this->supports_feature_name ) ) {
-				add_post_type_support($post_type, 'comments');
-				$this->feedback_on = true;
-			}
-		}
-	}
-
 	public function _action_change_menu_label() {
-		if ( $this->feedback_on ) {
 			global $menu;
-			$menu[25][0] = str_replace( 'Comments', __( 'Feedback', 'fw' ), $menu[25][0] );
-		}
+			$menu[25][0] =  __( 'Feedback', 'fw' );
 	}
 
 	public function _filter_pre_process_comment( $comment_data ) {
