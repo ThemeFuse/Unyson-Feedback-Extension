@@ -248,6 +248,6 @@ class FW_Extension_FeedBack extends FW_Extension {
 	 * {@inheritdoc}
 	 */
 	public function _get_link() {
-		return 'edit-comments.php';
+		return self_admin_url('edit-comments.php');
 	}
 }
