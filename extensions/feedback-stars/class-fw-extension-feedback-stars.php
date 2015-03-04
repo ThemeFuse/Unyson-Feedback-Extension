@@ -82,10 +82,10 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 
 			if ( $rating = intval(get_comment_meta( get_comment_ID(), $this->field_name, true )) ) {
 				$html = '<div class="wrap-rating back-end-listing"><span class="rating-title">' . __('Rating:', 'fw') . '</span><div class="fw-stars-rating">';
-                for($i=1; $i<=$this->get_max_rating(); $i++) {
-	                $voted = ( $i <= $rating ) ? ' voted' : '';
-	                $html .= '<span class="fa fa-star' . $voted . '" data-vote="' . $i . '"></span>';
-                }
+				for($i=1; $i<=$this->get_max_rating(); $i++) {
+					$voted = ( $i <= $rating ) ? ' voted' : '';
+					$html .= '<span class="fa fa-star' . $voted . '" data-vote="' . $i . '"></span>';
+				}
 				$html .= '</div></div>';
 				$text = $html . $text;
 			}
