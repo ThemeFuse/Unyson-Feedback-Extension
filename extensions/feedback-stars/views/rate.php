@@ -18,6 +18,6 @@
 		}
 		?>
 	</div>
-	<input type="hidden" name="<?php echo $input_name; ?>" id="rate" value="">
+	<input type="hidden" name="<?php echo esc_attr($input_name); ?>" id="rate" value="">
 </div>
 <!--/Rating-->

@@ -21,14 +21,14 @@ if(!intval($rating['count'])) {
 	<input type="hidden" name="rate" id="rate" value="5">
 </div>
 <div class="qtip-rating-html">
-	<span class="title-tip"><?php echo round($rating['average'], 2); ?> Based on <?php echo $rating['count']; ?> Votes</span>
+	<span class="title-tip"><?php echo round($rating['average'], 2); ?> <?php echo sprintf(__('Based on %s Votes', 'fw'), $rating['count']); ?></span>
 	<ul class="list-note">
-			<?php   foreach($rating['stars'] as $star=>$info) : ?>
+			<?php   foreach($rating['stars'] as $star => $info) : ?>
 						<li>
 							<span class="note"><?php echo $star;?> <i class="fa fa-star"></i></span>
 							<div class="wrap-bar">
 								<span class="rating-bar"></span>
-								<span class="rating-bar-progress" style="width: <?php echo $info['as_percentage']; ?>%;"></span>
+								<span class="rating-bar-progress" style="width: <?php echo esc_attr($info['as_percentage']); ?>%;"></span>
 							</div>
 							<span class="total"><?php echo $info['count']; ?></span>
 						</li>

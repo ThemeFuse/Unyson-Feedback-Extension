@@ -227,7 +227,7 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 					}
 				?>
 			</div>
-			<input type="hidden" name="<?php echo $this->field_name; ?>" value="<?php echo $rating; ?>">
+			<input type="hidden" name="<?php echo esc_attr($this->field_name); ?>" value="<?php echo esc_attr($rating); ?>">
 		</div>
 	<?php
 	}
