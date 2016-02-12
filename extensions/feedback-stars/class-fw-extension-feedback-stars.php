@@ -110,11 +110,11 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 		$html   = '';
 		if ( intval( $rating['count'] ) > 0 ) {
 			$html .= '<div itemscope itemtype="http://schema.org/Product">';
-			$html .= '<meta itemprop="name" content="' . get_the_title() . '"/>';
+			$html .= '<meta itemprop="name" content="' . esc_attr(get_the_title()) . '"/>';
 			$html .= '<div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">';
-			$html .= '<meta itemprop="ratingValue" content="' . $rating['average'] . '" />';
-			$html .= '<meta itemprop="bestRating" content="' . $this->get_max_rating() . '" />';
-			$html .= '<meta itemprop="reviewCount" content="' . $rating['count'] . '" />';
+			$html .= '<meta itemprop="ratingValue" content="' . esc_attr($rating['average']) . '" />';
+			$html .= '<meta itemprop="bestRating" content="' . esc_attr($this->get_max_rating()) . '" />';
+			$html .= '<meta itemprop="reviewCount" content="' . esc_attr($rating['count']) . '" />';
 			$html .= '</div>';
 			$html .= '</div>';
 		}
