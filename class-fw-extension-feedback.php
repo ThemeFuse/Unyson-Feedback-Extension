@@ -21,13 +21,6 @@ class FW_Extension_FeedBack extends FW_Extension {
 	 * @internal
 	 */
 	public function _init() {
-		$this->add_actions();
-		$this->add_filters();
-	}
-
-	private function add_actions() {
-
-		/** Internal */
 		{
 			add_action( 'wp', array( $this, '_action_global_post_is_available' ) );
 			add_action( 'wp_insert_comment', array( $this, '_action_wp_insert_comment' ), 9999, 2 );
@@ -35,14 +28,13 @@ class FW_Extension_FeedBack extends FW_Extension {
 			add_action( 'init', array( $this, '_action_add_feedback_support' ), 9999 );
 			add_action( 'admin_menu', array( $this, '_action_change_menu_label' ) );
 		}
-	}
 
-
-	private function add_filters() {
-		add_filter( 'preprocess_comment', array( $this, '_filter_pre_process_comment' ) );
-		add_filter( 'admin_comment_types_dropdown', array( $this, '_filter_admin_comment_types_drop_down' ) );
-		add_filter( 'comments_template', array( $this, '_filter_change_comments_template') );
-		add_filter( 'get_avatar_comment_types', array( $this, '_filter_get_avatar_comment_types') );
+		{
+			add_filter( 'preprocess_comment', array( $this, '_filter_pre_process_comment' ) );
+			add_filter( 'admin_comment_types_dropdown', array( $this, '_filter_admin_comment_types_drop_down' ) );
+			add_filter( 'comments_template', array( $this, '_filter_change_comments_template') );
+			add_filter( 'get_avatar_comment_types', array( $this, '_filter_get_avatar_comment_types') );
+		}
 	}
 
 	/**
@@ -163,7 +155,7 @@ class FW_Extension_FeedBack extends FW_Extension {
 			}
 
 			/** to prevent the creation of responses to feedback */
-			if($comment->comment_parent != 0) {
+			if ($comment->comment_parent != 0) {
 				$allow = false;
 				break;
 			}
@@ -189,28 +181,29 @@ class FW_Extension_FeedBack extends FW_Extension {
 		 * remove previous comments by this user on this post, only last feedback is saved
 		 * user is allowed to have only one feedback per post
 		 */
-		foreach (
-			get_comments( array(
-				'post_id' => $post_id,
-				'author_email' => $comment->comment_author_email
-			) ) as $comment
-		) {
-			/** @var object $comment */
-
-			if ( $comment_id != $comment->comment_ID ) // do not delete current comment
-			{
-				wp_delete_comment( $comment->comment_ID, true );
+		if (apply_filters('fw:ext:feedback:remove-previous-comments', true, array(
+			'post_id' => $post_id,
+			'comment' => $comment,
+		))) {
+			foreach (
+				get_comments(array(
+					'post_id' => $post_id,
+					'author_email' => $comment->comment_author_email
+				)) as $cmnt
+			) {
+				/** @var object $cmnt */
+				if ($comment_id != $cmnt->comment_ID) { // do not delete current comment
+					wp_delete_comment($cmnt->comment_ID, true);
+				}
 			}
-		};
+		}
 
 		/** everything is ok, tell sub-modules to save other inputs values (feedback-stars, etc.) */
 
-		$active = is_numeric( $comment->comment_approved ) && $comment->comment_approved == 1;
-
 		do_action( 'fw_ext_feedback_insert', $comment_id, array(
-			'active'     => $active,
+			'active'  => is_numeric( $comment->comment_approved ) && $comment->comment_approved == 1,
 			'post_id' => $post_id,
-			'user_id'    => $user_id
+			'user_id' => $user_id
 		) );
 	}
 
