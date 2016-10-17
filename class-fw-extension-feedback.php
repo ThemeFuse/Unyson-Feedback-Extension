@@ -34,6 +34,7 @@ class FW_Extension_FeedBack extends FW_Extension {
 			add_filter( 'admin_comment_types_dropdown', array( $this, '_filter_admin_comment_types_drop_down' ) );
 			add_filter( 'comments_template', array( $this, '_filter_change_comments_template') );
 			add_filter( 'get_avatar_comment_types', array( $this, '_filter_get_avatar_comment_types') );
+			add_filter( 'comment_class', array( $this, '_filter_comment_class' ), 10, 5 );
 		}
 	}
 
@@ -235,6 +236,27 @@ class FW_Extension_FeedBack extends FW_Extension {
 				'comment_status_old' => $old_status,
 			)
 		);
+	}
+
+	/**
+	 * @param array $classes
+	 * @param $class
+	 * @param $comment_ID
+	 * @param WP_Comment $comment
+	 * @param $post_id
+	 * @return array
+	 * @since 1.0.11
+	 */
+	public function _filter_comment_class($classes, $class, $comment_ID, $comment, $post_id) {
+		if (
+			$comment->comment_type === $this->supports_feature_name
+			&&
+			!in_array('comment', $classes)
+		) {
+			$classes[] = 'comment'; // Fixes https://github.com/ThemeFuse/Unyson/issues/1789
+		}
+
+		return $classes;
 	}
 
 	/**
