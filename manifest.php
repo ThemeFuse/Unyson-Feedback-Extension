@@ -9,5 +9,9 @@ $manifest['description'] = __( 'Adds the possibility to leave feedback (comments
 $manifest['version'] = '1.0.11';
 $manifest['display'] = true;
 $manifest['standalone'] = true;
+$manifest['github_repo'] = 'https://github.com/ThemeFuse/Unyson-Feedback-Extension';
+$manifest['uri'] = 'http://manual.unyson.io/en/latest/extension/feedback/index.html#content';
+$manifest['author'] = 'ThemeFuse';
+$manifest['author_uri'] = 'http://themefuse.com/';
 
 $manifest['github_update'] = 'ThemeFuse/Unyson-Feedback-Extension';
