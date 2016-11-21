@@ -6,7 +6,7 @@ $manifest = array();
 
 $manifest['name']        = __( 'FeedBack', 'fw' );
 $manifest['description'] = __( 'Adds the possibility to leave feedback (comments, reviews and rating) about your products, articles, etc. This replaces the default comments system.', 'fw' );
-$manifest['version'] = '1.0.11';
+$manifest['version'] = '1.0.12';
 $manifest['display'] = true;
 $manifest['standalone'] = true;
 $manifest['github_repo'] = 'https://github.com/ThemeFuse/Unyson-Feedback-Extension';
