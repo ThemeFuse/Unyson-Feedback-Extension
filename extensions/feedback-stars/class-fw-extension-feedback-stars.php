@@ -148,11 +148,11 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 
 	public function _action_admin_enqueue_scripts( $hook ) {
 		if ( $hook === 'edit-comments.php') {
-			wp_enqueue_style('fw-font-awesome');
+			wp_enqueue_style('font-awesome');
 			wp_enqueue_style(
 				'fw-extension-' . $this->get_name() . '-styles',
 				$this->get_declared_URI( '/static/css/listing-backend-styles.css' ),
-				array('fw-font-awesome', 'qtip'),
+				array('font-awesome', 'qtip'),
 				fw()->manifest->get_version()
 			);
 			wp_enqueue_script( 'fw-extension-' . $this->get_name() . '-scripts', $this->locate_js_URI( 'scripts' ), array(
@@ -161,11 +161,11 @@ class FW_Extension_FeedBack_Stars extends FW_Extension {
 				),
 				$this->manifest->get_version() );
 		}elseif($hook === 'comment.php') {
-			wp_enqueue_style('fw-font-awesome');
+			wp_enqueue_style('font-awesome');
 			wp_enqueue_style(
 				'fw-extension-' . $this->get_name() . '-styles',
 				$this->get_declared_URI( '/static/css/edit-backend-styles.css' ),
-				array('fw-font-awesome', 'qtip'),
+				array('font-awesome', 'qtip'),
 				fw()->manifest->get_version()
 			);
 			wp_enqueue_script( 'fw-extension-' . $this->get_name() . 'edit-scripts', $this->locate_js_URI( 'edit-feedback' ), array(
